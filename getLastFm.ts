@@ -73,6 +73,9 @@ await notion.blocks.update({
     rich_text: [{
       type: "text",
       text: {content: `${recentTracks[0].name} / ${recentTracks[0].artist.name}`},
+      annotations: {
+        bold: true,
+      },
     }],
   }
 });
