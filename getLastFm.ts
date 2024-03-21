@@ -27,8 +27,8 @@ if (resp.ok) {
 }
 
 const now = new Date();
-if ((now.getTime() - getDate(recentTracks[0].date).getTime()) > 10 * 60 * 1000) {
-  console.log("10分以上前のデータのため描画は更新せず終了します");
+if ((now.getTime() - getDate(recentTracks[0].date).getTime()) > 30 * 60 * 1000) {
+  console.log("30分以上前のデータのため描画は更新せず終了します");
   Deno.exit(0);
 }
 
