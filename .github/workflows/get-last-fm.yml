@@ -9,14 +9,14 @@ jobs:
   cron:
     runs-on: ubuntu-latest
     steps:
-      - env:
-        LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
-        LASTFM_USER_NAME: ${{ secrets.LASTFM_USER_NAME }}
-        NOTION_API_SECRET: ${{ secrets.NOTION_API_SECRET }}
-        NOTION_COLUMN_LIST_ID: ${{ secrets.NOTION_COLUMN_LIST_ID }}
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.41.3
       - run: | 
           deno run -A ${GITHUB_WORKSPACE}/getLastFm.ts
+        env:
+          LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
+          LASTFM_USER_NAME: ${{ secrets.LASTFM_USER_NAME }}
+          NOTION_API_SECRET: ${{ secrets.NOTION_API_SECRET }}
+          NOTION_COLUMN_LIST_ID: ${{ secrets.NOTION_COLUMN_LIST_ID }}
