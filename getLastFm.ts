@@ -25,7 +25,13 @@ if (resp.ok) {
   console.error(`${resp.status} ${resp.statusText}`);
   Deno.exit(1);
 }
-// TODO: データが古い場合には早期終了
+
+const now = new Date();
+if ((now.getTime() - getDate(recentTracks[0].date).getTime()) > 10 * 60 * 1000) {
+  console.log("10分以上前のデータのため描画は更新せず終了します");
+  Deno.exit(0);
+}
+
 
 // ----- Patch Data on Notion -----
 const targetColumnListId = Deno.env.get("NOTION_COLUMN_LIST_ID")!;
@@ -59,7 +65,6 @@ const rightColumnId = columns[1].id;
 const rightColumnResponse =  await notion.blocks.children.list({
   block_id: rightColumnId
 });
-console.log(rightColumnResponse);
 const titleBlockId = rightColumnResponse.results[0].id;
 const describeBlockId = rightColumnResponse.results[1].id;
 await notion.blocks.update({
@@ -77,7 +82,7 @@ await notion.blocks.update({
   paragraph: {
     rich_text: [{
       type: "text",
-      text: {content: `${getDate(recentTracks[0].date).toLocaleString('ja-JP')}`},
+      text: {content: `${getDateString(getDate(recentTracks[0].date))}`},
     }],
     color: "gray",
   }
@@ -94,7 +99,22 @@ function getDate(date: {uts: string} | undefined) {
   if (date === undefined) {
     return new Date();
   }
-  return new Date(parseInt(date.uts));
+    return new Date(parseInt(date.uts) * 1000);
+}
+
+/**
+ * 日付の文字列を返す
+ * @param date Date型オブジェクト
+ * @returns string
+ */
+function getDateString(date: Date) {
+  return date.toLocaleString('ja-JP', {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 /**
