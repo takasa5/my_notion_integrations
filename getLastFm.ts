@@ -21,15 +21,11 @@ const resp = await fetch(
 let recentTracks;
 if (resp.ok) {
   recentTracks = (await resp.json()).recenttracks.track;
-  console.log(recentTracks);
-  console.log(recentTracks[0].image);
-  console.log(recentTracks[0].artist.image);
-  console.log(recentTracks[0].url);
-
 } else {
   console.error(`${resp.status} ${resp.statusText}`);
   Deno.exit(1);
 }
+// TODO: データが古い場合には早期終了
 
 // ----- Patch Data on Notion -----
 const targetColumnListId = Deno.env.get("NOTION_COLUMN_LIST_ID")!;
