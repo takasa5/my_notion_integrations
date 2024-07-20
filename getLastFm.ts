@@ -128,10 +128,10 @@ function getDateString(date: Date) {
 function getImage(recentTrack: any) {
   const defaultImage = "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png";
   // ジャケット画像を取得
-  const albumImage = recentTrack.image.length >= 3 ? recentTrack.image[3]["#text"] : defaultImage;
+  const albumImage = (recentTrack.image.length >= 3 && recentTrack.image[3]["#text"]) ? recentTrack.image[3]["#text"] : defaultImage;
   if (albumImage === defaultImage) {
     // アーティスト画像を取得
-    const artistImage = recentTrack.artist.image.length >= 3 ? recentTrack.artist.image[3]["#text"] : defaultImage;
+    const artistImage = (recentTrack.artist.image.length >= 3 && recentTrack.artist.image[3]["#text"]) ? recentTrack.artist.image[3]["#text"] : defaultImage;
     return artistImage;
   }
   return albumImage;
