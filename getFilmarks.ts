@@ -263,6 +263,6 @@ async function createNotionPage(movie: Movie, sortIds: number[]) {
 
 const movies = await getFilmarksAllPages(baseUrl);
 const sortIds = await getAllSortIds();
-movies.splice(0, 2).forEach(async (movie) => {
+movies.forEach(async (movie) => {
   await createNotionPage(movie, sortIds);
 });
